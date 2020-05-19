@@ -1,0 +1,34 @@
+{
+    "name": "doctype_admin/blog",
+    "description": "Package to integrate blog system to your Doctype Admin",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pratik Shrestha",
+            "email": "pratikdai404@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "orchestra/testbench": "5.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "doctype_admin\\Blog\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "doctype_admin\\Blog\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "doctype_admin\\Blog\\BlogServiceProvider"
+            ]
+        }
+    }
+}
