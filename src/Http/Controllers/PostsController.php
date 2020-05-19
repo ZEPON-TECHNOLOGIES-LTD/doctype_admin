@@ -1,7 +1,7 @@
 <?php
 namespace doctype_admin\Blog\Http\Controllers;
 
-use doctype_admin\Blog\Http\Models\Post;
+use doctype_admin\Blog\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -17,7 +17,8 @@ class PostsController extends Controller
 
     public function index()
     {
-        //
+         $posts = Post::all();
+        return view('blog::post.index',compact('posts'));
     }
     
     /**
@@ -29,7 +30,7 @@ class PostsController extends Controller
     */
     public function create()
     {
-        //
+        return view('blog::post.create');
     }
     
     /**
@@ -43,7 +44,8 @@ class PostsController extends Controller
     */
     public function store(Request $request)
     {
-        //
+        Post::create($this->validateData());
+        return redirect('/post');
     }
     
     /**
@@ -57,22 +59,15 @@ class PostsController extends Controller
     */
     public function edit(Post $post)
     {
-        //
+        return view("blog::post.edit",compact('post'));
     }
 
-    /**
-    *
-    *Updates the speciefed resource
-    *
-    *@param \Illuminate\Http\Request
-    *@param \doctype_admin\Blog\Http\Models\Post $post
-    *
-    *@return \Illuminate\Http\Response
-    *
-    */
+
+
     public function update(Request $request,Post $post)
     {
-        //
+        $post->update($this->validateData());
+        return redirect('/post');
     }
 
     /**
@@ -86,19 +81,36 @@ class PostsController extends Controller
     */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect('/blog');
     }
 
-    /**
-    *
-    *Validates the incoming requests
-    *
-    *@return return_type
-    *
-    */
+
     private function validateData()
     {
-        //
+    return tap(
+        request()->validate([
+            'author_id' => 'required|numeric',
+            'category_id' => 'numeric',
+            'title' => 'required|max:100',
+            'seo_title' => 'max:100',
+            'excerpt' => 'required|max:300',
+            'body' => 'sometimes|max:5000',
+            'image' => 'sometimes|file|image|max:5000',
+            'slug' => 'required|max:100',
+            'meta_description' => 'max:200',
+            "meta_keywords" => 'max:300',
+            "status" => 'required|numeric',
+            'featured' => 'required|numeric'
+        ]),
+        function(){
+             if(request()->has('image')){
+                 request()->validate([
+                     'image' => 'sometimes|file|image|max:5000',
+                 ]);
+             }
+        }
+    );
     }
 
 }

@@ -1,7 +1,8 @@
 <?php
 namespace doctype_admin\Blog\Http\Controllers;
 
-use doctype_admin\Blog\Http\Models\Category;
+
+use doctype_admin\Blog\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -17,7 +18,8 @@ class CategoriesController extends Controller
 
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view("blog::category.index",compact('categories'));
     }
     
     /**
@@ -29,7 +31,7 @@ class CategoriesController extends Controller
     */
     public function create()
     {
-        //
+        return view("blog::category.create");
     }
     
     /**
@@ -43,7 +45,8 @@ class CategoriesController extends Controller
     */
     public function store(Request $request)
     {
-        //
+        Category::create($this->validateData());
+        return redirect('/category');
     }
     
     /**
@@ -57,7 +60,7 @@ class CategoriesController extends Controller
     */
     public function edit(Category $category)
     {
-        //
+        return view("blog::category.edit",compact('category'));
     }
 
     /**
@@ -72,7 +75,8 @@ class CategoriesController extends Controller
     */
     public function update(Request $request,Category $category)
     {
-        //
+        $category->update($this->validateData());
+        return redirect('/category');
     }
 
     /**
@@ -86,19 +90,19 @@ class CategoriesController extends Controller
     */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect('/category');
     }
 
-    /**
-    *
-    *Validates the incoming requests
-    *
-    *@return return_type
-    *
-    */
+
     private function validateData()
     {
-        //
+        return tap(
+            request()->validate([
+                'name' => 'required|max:50',
+                'slug'=> 'required|max:50'
+            ])
+        );
     }
 
 }

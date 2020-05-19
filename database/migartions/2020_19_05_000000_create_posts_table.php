@@ -25,7 +25,7 @@ class CreatePostsTable extends Migration
             $table->string('slug')->unique();
             $table->text('meta_description')->nullable();
             $table->text('meta_keywords')->nullable();
-            $table->ineteger('status');
+            $table->ineteger('status')->default(0);
             $table->boolean('featured')->default(0);
             $table->timestamps();
 
