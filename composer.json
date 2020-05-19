@@ -10,7 +10,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "rtconner/laravel-tagging": "~4.0"
+    },
     "require-dev": {
         "orchestra/testbench": "5.x-dev"
     },
