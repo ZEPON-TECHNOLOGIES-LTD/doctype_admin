@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Edit Post')
 
 
 @section('content_header')
@@ -24,7 +24,7 @@
 @stop
 
   @section('content')
-
+  @include('blog::layouts.error')
   <section class="content">
     <div class="container-fluid">
       <div class="card card-outline card-info">

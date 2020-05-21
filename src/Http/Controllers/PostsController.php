@@ -1,6 +1,7 @@
 <?php
 namespace doctype_admin\Blog\Http\Controllers;
 
+use RealRashid\SweetAlert\Facades\Alert as Alert;
 use doctype_admin\Blog\Models\Category;
 use doctype_admin\Blog\Models\Post;
 use Illuminate\Http\Request;
@@ -54,6 +55,7 @@ class PostsController extends Controller
         /* Assigning tags */
          $post->tag(explode(',', $request->tags));  
         $this->uploadImage($post);
+        toast("Post Created","success");
         return redirect('/admin/post');
     }
 
@@ -105,6 +107,7 @@ class PostsController extends Controller
  }
  /* ------------------ */
         $this->uploadImage($post);
+        toast("Post Updated","info");
         return redirect('/admin/post');
     }
 
@@ -120,7 +123,8 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect('/blog');
+        toast("Post Deleted","error");
+        return redirect('/admin/post');
     }
 
 

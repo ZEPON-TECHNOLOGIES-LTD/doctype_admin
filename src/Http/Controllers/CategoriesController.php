@@ -24,7 +24,7 @@ class CategoriesController extends Controller
     
     /**
     *
-    *Show tthe form for creating new resources
+    *Show the form for creating new resources
     *
     *@return \Illuminate\Http\Response
     *
@@ -46,7 +46,8 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         Category::create($this->validateData());
-        return redirect('/category');
+        toast("Post Category Created","success");
+        return redirect('/admin/category');
     }
     
     /**
@@ -76,7 +77,8 @@ class CategoriesController extends Controller
     public function update(Request $request,Category $category)
     {
         $category->update($this->validateData());
-        return redirect('/category');
+        toast("Post Category Updated","info");
+        return redirect('/admin/category');
     }
 
     /**
@@ -91,18 +93,19 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect('/category');
+        toast("Post Category Deleted","error");
+        return redirect('/admin/category');
     }
 
 
     private function validateData()
     {
-        return tap(
-            request()->validate([
+      
+           return request()->validate([
                 'name' => 'required|max:50',
                 'slug'=> 'required|max:50'
-            ])
-        );
+            ]);
+       
     }
 
 }

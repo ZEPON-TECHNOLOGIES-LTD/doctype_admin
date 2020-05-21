@@ -11,7 +11,8 @@
     "minimum-stability": "dev",
     "require": {
         "rtconner/laravel-tagging": "~4.0",
-        "intervention/image": "^2.4@dev"
+        "intervention/image": "^2.4@dev",
+        "realrashid/sweet-alert": "dev-master"
     },
     "require-dev": {
         "orchestra/testbench": "5.x-dev"

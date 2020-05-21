@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Post')
 
 @section('content_header')
   
@@ -9,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
+            <h1>Blog Posts</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -65,11 +65,12 @@
                     <td class="d-flex justify-content-around">
                     <a href="{{url('/admin/post').'/'.$post->id}}" class="btn btn-sm btn-primary" target="_blank" title="Show Post"><i class="fas fa-eye"></i></a>
                     <a href="{{url('/admin/post').'/'.$post->id.'/edit'}}" target="_blank" class="btn btn-sm btn-warning" title="Edit Post"><i class="fas fa-edit"></i></a>
-                    <form action="{{url('/post').'/'.$post->id}}" method="POST">
-                        @method('DELETE')
-                            @csrf   
-                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash" title="Delete Post"></i></button>
-                        </form>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#post-{{$post->id}}">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                        {{-- Delete Model --}}
+    @include('blog::layouts.post.confirm_delete')
+      <!-- /.modal -->
                     </td>
                     </tr>
                 @endforeach
@@ -94,7 +95,6 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
-
 @stop
 
 @section('css')
