@@ -1,9 +1,11 @@
 <?php
 namespace doctype_admin\Blog\Http\Controllers;
 
+use doctype_admin\Blog\Models\Category;
 use doctype_admin\Blog\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Intervention\Image\Facades\Image as Image;
 
 class PostsController extends Controller
 {
@@ -17,7 +19,7 @@ class PostsController extends Controller
 
     public function index()
     {
-         $posts = Post::all();
+         $posts = Post::with('category')->get();
         return view('blog::post.index',compact('posts'));
     }
     
@@ -30,12 +32,15 @@ class PostsController extends Controller
     */
     public function create()
     {
-        return view('blog::post.create');
+        $categories = Category::all();
+        /* Retriving Tags */
+        $tags = Post::existingTags()->pluck('name');
+        return view('blog::post.create',compact('categories','tags'));
     }
     
     /**
     *
-    *Stores a newly created resourcesin storage
+    *Stores a newly created resources in storage
     *
     *@param \Illuminate\Http\Request $request
     *
@@ -44,8 +49,27 @@ class PostsController extends Controller
     */
     public function store(Request $request)
     {
-        Post::create($this->validateData());
-        return redirect('/post');
+
+        $post = Post::create($this->validateData());
+        /* Assigning tags */
+         $post->tag(explode(',', $request->tags));  
+        $this->uploadImage($post);
+        return redirect('/admin/post');
+    }
+
+    /**
+    *
+    *Show specified resource
+    *
+    *@param doctype_admin\Blog\Http\Models\Post $post
+    *
+    *@return \Illuminate\Http\Response
+    *
+    */
+
+    public function show(Post $post)
+    {
+        return view("blog::post.show",compact('post'));
     }
     
     /**
@@ -59,15 +83,29 @@ class PostsController extends Controller
     */
     public function edit(Post $post)
     {
-        return view("blog::post.edit",compact('post'));
+                /* Retriving tags */
+                $tags = $post->existingTags()->pluck('name');
+                $remove_tags = $post->tagged->pluck('tag_name');
+                $categories = Category::all();
+        return view("blog::post.edit",compact('post','tags','remove_tags','categories'));
     }
 
 
 
     public function update(Request $request,Post $post)
     {
+     
         $post->update($this->validateData());
-        return redirect('/post');
+        /* Assigning tags */
+        $post->tag(explode(',', $request->tags));  
+        /* ---------------- */
+         /* Removing tags */
+         if(!empty($request->remove_tags)){
+             $post->untag($request->remove_tags);
+ }
+ /* ------------------ */
+        $this->uploadImage($post);
+        return redirect('/admin/post');
     }
 
     /**
@@ -106,11 +144,23 @@ class PostsController extends Controller
         function(){
              if(request()->has('image')){
                  request()->validate([
-                     'image' => 'sometimes|file|image|max:5000',
+                     'image' => 'file|image|max:5000',
                  ]);
              }
         }
     );
+    }
+
+    private function uploadImage($post){
+        if(!empty(request()->image) && request()->has('image'))
+        {
+            $post->update([
+                'image' => request()->image->store('uploads/blog/post','public')
+            ]);
+            $image = Image::make(request()->file('image')->getRealPath());
+            $image->save(public_path('storage/' . $post->image));
+        }  
+
     }
 
 }

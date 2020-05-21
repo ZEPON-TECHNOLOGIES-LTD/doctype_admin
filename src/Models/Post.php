@@ -3,11 +3,14 @@
 namespace doctype_admin\Blog\Models;
 
 use App\User;
+use Conner\Tagging\Taggable;
 use doctype_admin\Blog\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use Taggable;
+    
     protected $guarded =[];
 
     public function save(array $options = [])

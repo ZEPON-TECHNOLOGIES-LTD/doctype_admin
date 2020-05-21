@@ -52,9 +52,22 @@ class BlogServiceProvider extends ServiceProvider
      */
      protected function registerPublishing()
      {
+         /* Config file publish */
          $this->publishes([
              __DIR__.'/../config/blog.php' => config_path('blog.php')
-         ],'blog');
+         ],'blog-config');
+         /* Views File Publish */
+         $this->publishes([
+             __DIR__.'/../resources/views' => resource_path('views/vendor/blog'),
+         ],'blog-views');
+         /* Migration File Publish */
+         $this->publishes([
+             __DIR__.'/../database/migartions' => database_path('migrations')
+         ],'blog-migrations');
+        /* Seed File Publish */
+        $this->publishes([
+        __DIR__.'/../database/seeds' => database_path('seeds')
+        ],'blog-seed');
      }
 
      protected function registerRoutes()
@@ -68,7 +81,10 @@ class BlogServiceProvider extends ServiceProvider
      {
          return [
              'prefix' => 'admin',
-             'namespace' => 'doctype_admin\Blog\Http\Controllers'
+             'namespace' => 'doctype_admin\Blog\Http\Controllers',
+             'middleware' => [
+'web','auth','activity'
+             ]
          ];
      }
 }
