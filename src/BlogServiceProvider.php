@@ -30,7 +30,9 @@ class BlogServiceProvider extends ServiceProvider
 
     public function register()
     {
-        //
+        $this->commands([
+            Console\DoctypeAdminBlogInstallerCommand::class
+        ]);
     }
 
      /**
@@ -67,7 +69,7 @@ class BlogServiceProvider extends ServiceProvider
         /* Seed File Publish */
         $this->publishes([
         __DIR__.'/../database/seeds' => database_path('seeds')
-        ],'blog-seed');
+        ],'blog-seeds');
      }
 
      protected function registerRoutes()
