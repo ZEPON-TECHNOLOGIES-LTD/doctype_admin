@@ -211,7 +211,7 @@
                 {{-- Post Keywords --}}
 
                 <label for="post_keyword">Post Keywords</label>
-                <input type="text" name="keywords" id="keywords" style="width:100%">
+                <input type="text" name="meta_keywords" id="keywords" style="width:100%">
               </div>
             </div>
           </div>

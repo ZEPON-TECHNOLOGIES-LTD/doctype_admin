@@ -175,11 +175,11 @@
                                                 <br>
                                                 <label>Post SEO Description</label>
                                                 <br>
-                                                {{ $post->seo_description }}
+                                                {{ $post->meta_description }}
                                                 <br>
                                                 <label>Post Keywords</label>
                                                 <br>
-                                                {{ $post->keywords }}
+                                                {{ $post->meta_keywords }}
                                             </div>
                                         </div>
                                     </div>
