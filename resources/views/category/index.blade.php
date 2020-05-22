@@ -13,7 +13,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{url('/admin/dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{url(config('blog.prefix','admin').'/'.'dashboard')}}">Home</a></li>
                 <li class="breadcrumb-item active">Post Category</li>
                 </ol>
           </div>
@@ -26,7 +26,6 @@
 
     <!-- Main content -->
     <section class="content">
-        @include('blog::layouts.error')
       <div class="row">
         <div class="col-12">
           <div class="card">
@@ -57,7 +56,7 @@
                     <td>{{$category->name}}</td>
                     <td>{{$category->slug}}</td>
                     <td class="d-flex justify-content-around">
-                    <a href="{{url('/admin/category').'/'.$category->id.'/edit'}}" target="_blank" class="btn btn-sm btn-warning" title="Edit Category"><i class="fas fa-edit"></i></a>
+                    <a href="{{url(config('blog.prefix','admin').'/'.'category').'/'.$category->id.'/edit'}}" target="_blank" class="btn btn-sm btn-warning" title="Edit Category"><i class="fas fa-edit"></i></a>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#category-{{$category->id}}">
                       <i class="fas fa-trash"></i>
                     </button>
@@ -96,7 +95,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action="{{url('/admin/category')}}" method="POST">
+            <form action="{{url(config('blog.prefix','admin').'/'.'category')}}" method="POST">
                 @csrf
             <div class="modal-body">
               <p>

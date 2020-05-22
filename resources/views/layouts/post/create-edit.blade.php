@@ -96,8 +96,8 @@
                 <label for="post_slug">Post Slug</label>
                 <input type="text" name="slug" class="form-control" id="post_slug"
               placeholder="Enter Post Slug" value="{{!empty($post) && $post->slug ? $post->slug : old('slug')}}">
-
-                {{-- Post Tags --}}
+               @if (config('blog.post_tagging','true'))
+                           {{-- Post Tags --}}
                 <label for="post_keyword">Post Tags</label>
                 <br>
                 {{-- Tagging --}}
@@ -109,6 +109,7 @@
                         @endforeach
                     ];
              </script>  
+               @endif
                  @if (!empty($remove_tags) && !empty($post) && $remove_tags->count() > 0)
                  <hr>
                  <h3 class="panel-title">

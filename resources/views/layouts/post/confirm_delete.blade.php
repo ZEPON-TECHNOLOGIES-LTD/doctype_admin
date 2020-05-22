@@ -8,7 +8,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="{{url('/admin/post').'/'.$post->id}}" method="POST">
+      <form action="{{url(config('blog.prefix','admin').'/'.'post').'/'.$post->id}}" method="POST">
         @method('DELETE')
             @csrf   
       <div class="modal-body">

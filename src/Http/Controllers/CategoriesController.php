@@ -47,7 +47,7 @@ class CategoriesController extends Controller
     {
         Category::create($this->validateData());
         toast("Post Category Created","success");
-        return redirect('/admin/category');
+        return redirect(config('blog.prefix','admin').'/'.'category');
     }
     
     /**
@@ -78,7 +78,7 @@ class CategoriesController extends Controller
     {
         $category->update($this->validateData());
         toast("Post Category Updated","info");
-        return redirect('/admin/category');
+        return redirect(config('blog.prefix','admin').'/'.'category');
     }
 
     /**
@@ -94,7 +94,7 @@ class CategoriesController extends Controller
     {
         $category->delete();
         toast("Post Category Deleted","error");
-        return redirect('/admin/category');
+        return redirect(config('blog.prefix','admin').'/'.'category');
     }
 
 

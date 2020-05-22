@@ -80,11 +80,9 @@ class BlogServiceProvider extends ServiceProvider
      private function routeConfiguration()
      {
          return [
-             'prefix' => 'admin',
+             'prefix' => config('blog.prefix','admin'),
              'namespace' => 'doctype_admin\Blog\Http\Controllers',
-             'middleware' => [
-'web','auth','activity'
-             ]
+             'middleware' => config('blog.middleware')
          ];
      }
 }

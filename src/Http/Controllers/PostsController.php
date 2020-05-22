@@ -35,7 +35,7 @@ class PostsController extends Controller
     {
         $categories = Category::all();
         /* Retriving Tags */
-        $tags = Post::existingTags()->pluck('name');
+        $tags = config('blog.post_tagging','true') == true ? Post::existingTags()->pluck('name') : false;
         return view('blog::post.create',compact('categories','tags'));
     }
     
@@ -52,11 +52,14 @@ class PostsController extends Controller
     {
 
         $post = Post::create($this->validateData());
+        if(config('blog.post_tagging','true'))
+        {
         /* Assigning tags */
          $post->tag(explode(',', $request->tags));  
         $this->uploadImage($post);
+        }
         toast("Post Created","success");
-        return redirect('/admin/post');
+        return redirect(config('blog.prefix','admin').'/'.'post');
     }
 
     /**
@@ -85,10 +88,10 @@ class PostsController extends Controller
     */
     public function edit(Post $post)
     {
-                /* Retriving tags */
-                $tags = $post->existingTags()->pluck('name');
-                $remove_tags = $post->tagged->pluck('tag_name');
-                $categories = Category::all();
+    /* Retriving tags */
+    $tags = config('blog.post_tagging','true') == true ? $post->existingTags()->pluck('name') : false;
+    $remove_tags = config('blog.post_tagging','true') == true ? $post->tagged->pluck('tag_name') : false;
+    $categories = Category::all();
         return view("blog::post.edit",compact('post','tags','remove_tags','categories'));
     }
 
@@ -97,18 +100,21 @@ class PostsController extends Controller
     public function update(Request $request,Post $post)
     {
      
-        $post->update($this->validateData());
-        /* Assigning tags */
-        $post->tag(explode(',', $request->tags));  
-        /* ---------------- */
-         /* Removing tags */
-         if(!empty($request->remove_tags)){
-             $post->untag($request->remove_tags);
- }
+    $post->update($this->validateData());
+    if(config('blog.post_tagging','true'))
+     {
+             /* Assigning tags */
+    $post->tag(explode(',', $request->tags));  
+    /* ---------------- */
+    /* Removing tags */
+    if(!empty($request->remove_tags)){
+    $post->untag($request->remove_tags);
+     }
  /* ------------------ */
+     }
         $this->uploadImage($post);
         toast("Post Updated","info");
-        return redirect('/admin/post');
+        return redirect(config('blog.prefix','admin').'/'.'post');
     }
 
     /**
@@ -124,7 +130,7 @@ class PostsController extends Controller
     {
         $post->delete();
         toast("Post Deleted","error");
-        return redirect('/admin/post');
+        return redirect(config('blog.prefix','admin').'/'.'post');
     }
 
 
