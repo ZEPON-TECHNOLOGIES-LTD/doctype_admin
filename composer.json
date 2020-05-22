@@ -5,10 +5,26 @@
     "authors": [
         {
             "name": "Pratik Shrestha",
-            "email": "pratikdai404@gmail.com"
+            "email": "pratikdai404@gmail.com",
+            "homepage": "https://pratiksh404.github.io/",
+            "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
+    "keywords": [
+        "doctype nepal",
+        "doctypenepal",
+        "doctype admin",
+        "doctype admin panel",
+        "drh2so4",
+        "pratiksh404",
+        "pratikshrestha",
+        "pratik shrestha",
+        "doctype admin panel blog package",
+        "admin panel blog package",
+        "blog package",
+        "drh2so4 blog package"
+    ],
+    "minimum-stability": "beta",
     "require": {
         "rtconner/laravel-tagging": "~4.0",
         "intervention/image": "^2.4@dev",
